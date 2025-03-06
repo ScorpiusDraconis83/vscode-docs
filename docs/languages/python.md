@@ -4,7 +4,7 @@ Area: languages
 TOCTitle: Python
 ContentId: c2cb770d-571d-4edf-9eb9-b5b8977c21a0
 PageTitle: Python in Visual Studio Code
-DateApproved: 3/22/2023
+DateApproved: 03/05/2025
 MetaDescription: Learn about Visual Studio Code as a Python IDE (code completion, debugging, linting).
 ---
 # Python in Visual Studio Code
@@ -35,15 +35,15 @@ To experience Python, create a file (using the [File Explorer](/docs/getstarted/
 print("Hello World")
 ```
 
-The Python extension then provides shortcuts to run Python code using the currently selected interpreter (**Python: Select Interpreter** in the Command Palette). To run the active Python file, click the **Run Python File in Terminal** play button in the top-right side of the editor.
+The Python extension then provides shortcuts to run Python code using the currently selected interpreter (**Python: Select Interpreter** in the Command Palette). To run the active Python file, click the **Run Python File** play button in the top-right side of the editor.
 
 ![Using the run python file in terminal button](images/python/run-python-file-in-terminal-button.png)
 
-You can also run individual lines or a selection of code with the **Python: Run Selection/Line in Python Terminal** command (`kbstyle(Shift+Enter)`). If there isn't a selection, the line with your cursor will be run in the Python Terminal. An identical **Run Selection/Line in Python Terminal** command is available on the context menu for a selection in the editor. The same terminal will be used every time you run a selection or a line in the terminal/REPL, until that terminal is closed. The same terminal is also used for **Run Python File in Terminal**. If that terminal is still running the REPL, you should exit the REPL (`exit()`) or switch to a different terminal before running a Python file.
+You can also run individual lines or a selection of code with the **Python: Run Selection/Line in Python Terminal** command (`kbstyle(Shift+Enter)`). If there isn't a selection, Smart Send will send the smallest runnable block of code around the line where your cursor is placed to the Python Terminal on (`kbstyle(Shift+Enter)`). An identical **Run Python > Run Selection/Line in Python Terminal** command is available on the context menu for a selection in the editor. The same terminal will be used every time you run a selection or a line in the terminal/REPL, until that terminal is closed. The same terminal is also used for **Run Python File in Terminal**. If that terminal is still running the REPL, you should exit the REPL (`exit()`) or switch to a different terminal before running a Python file.
 
 The Python extension automatically removes indents based on the first non-empty line of the selection, shifting all other lines left as needed.
 
-The command opens the Python Terminal if necessary; you can also open the interactive REPL environment directly using the **Python: Start REPL** command that activates a terminal with the currently selected interpreter and then runs the Python REPL.
+The command opens the Python Terminal if necessary; you can also open the interactive REPL environment directly using the **Python: Start Terminal REPL** command that activates a terminal with the currently selected interpreter and then runs the Python REPL.
 
 For a more specific walkthrough and other ways of running code, see the [run code tutorial](/docs/python/python-tutorial.md).
 
@@ -77,7 +77,7 @@ The Python extension can apply a number of different linters including Pylint, p
 
 ## Debugging
 
-No more `print` statement debugging! VS Code comes with great debugging support for Python, allowing you to set breakpoints, inspect variables, and use the debug console for an in-depth look at how your program is executing step by step. Debug a number of different types of Python applications, including multi-threaded, web, and remote applications.
+No more `print` statement debugging! VS Code comes with great debugging support for Python via the [Python Debugger extension](https://marketplace.visualstudio.com/items?itemName=ms-python.debugpy), allowing you to set breakpoints, inspect variables, and use the debug console for an in-depth look at how your program is executing step by step. Debug a number of different types of Python applications, including multi-threaded, web, and remote applications.
 
 For more specific information on debugging in Python, such as configuring your `launch.json` settings and implementing remote debugging, see [Debugging](/docs/python/debugging.md). General VS Code debugging information is found in the [debugging document](/docs/editor/debugging.md).
 
@@ -93,7 +93,7 @@ The Python extension automatically detects Python interpreters that are installe
 
 The current environment is shown on the right side of the VS Code Status Bar:
 
-![Status Bar showing a selected interpreter](images/python/selected-interpreter-status-bar.png)
+![Status Bar showing a selected interpreter](../python/images/shared/environment-in-status-bar.png)
 
 The Status Bar also indicates if no interpreter is selected:
 

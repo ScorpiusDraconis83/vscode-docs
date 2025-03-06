@@ -4,9 +4,9 @@ Area: nodejs
 TOCTitle: Node.js Debugging
 ContentId: 3AC4DBB5-1469-47FD-9CC2-6C94684D4A9D
 PageTitle: Debug Node.js Apps using Visual Studio Code
-DateApproved: 12/7/2023
+DateApproved: 03/05/2025
 MetaDescription: The Visual Studio Code editor includes Node.js debugging support. Set breakpoints, step-in, inspect variables and more.
-MetaSocialImage: /assets/docs/editor/debugging/Debugging.png
+MetaSocialImage: ../editor/images/debugging/debugging-social.png
 ---
 # Node.js debugging in VS Code
 
@@ -96,13 +96,13 @@ Launch configs are the traditional way to set up debugging in VS Code, and provi
 
 In this section we'll go into more detail about configurations and features for more advanced debugging scenarios. You'll find instruction for debugging with [source maps](/docs/nodejs/nodejs-debugging.md#source-maps), [stepping over external code](/docs/nodejs/nodejs-debugging.md#skipping-uninteresting-code), doing [remote debugging](/docs/nodejs/nodejs-debugging.md#remote-debugging), and much more.
 
-If you'd like to watch an introductory video, see [Getting started with Node.js debugging](https://www.youtube.com/watch?v=2oFKNL7vYV8).
+If you'd like to watch an introductory video, see [Getting started with debugging in VS Code](https://www.youtube.com/watch?v=3HiLLByBWkg).
 
 >**Note**: If you are just getting started with VS Code, you can learn about general debugging features and creating `launch.json` configuration files in the [Debugging](/docs/editor/debugging.md) topic.
 
 ## Launch configuration attributes
 
-Debugging configurations are stored in a `launch.json` file located in your workspace's `.vscode` folder. An introduction into the creation and use of debugging configuration files is in the general [Debugging](/docs/editor/debugging.md#launch-configurations) article.
+Debugging configurations are stored in a `launch.json` file located in your workspace's `.vscode` folder. An introduction into the creation and use of debugging configuration files is in the general [Debugging](/docs/editor/debugging-configuration.md#launch-configurations) article.
 
 Below is a reference of common `launch.json` attributes specific to the Node.js debugger. You can view the complete set of options in the [vscode-js-debug options](https://github.com/microsoft/vscode-js-debug/blob/main/OPTIONS.md) documentation.
 
@@ -123,7 +123,7 @@ These attributes are only available for launch configurations of request type `l
 * `program` - an absolute path to the Node.js program to debug.
 * `args` - arguments passed to the program to debug. This attribute is of type array and expects individual arguments as array elements.
 * `cwd` - launch the program to debug in this directory.
-* `runtimeExecutable` - absolute path to the runtime executable to be used. Default is `node`. See section [Launch configuration support for 'npm' and other tools](/docs/nodejs/nodejs-debugging.md#launch-configuration-support-for-npm-and-other-tools).
+* `runtimeExecutable` - absolute path to the runtime executable to be used. Default is `node`. See section [Launch configuration support for 'npm' and other tools](/docs/nodejs/nodejs-debugging-configuration.md#launch-configuration-support-for-npm-and-other-tools).
 * `runtimeArgs` - optional arguments passed to the runtime executable.
 * `runtimeVersion` - if "[nvm](https://github.com/creationix/nvm)" (or "[nvm-windows](https://github.com/coreybutler/nvm-windows)") or "[nvs](https://github.com/jasongin/nvs)" is used for managing Node.js versions, this attribute can be used to select a specific version of Node.js. See section [Multi version support](/docs/nodejs/nodejs-debugging.md#multi-version-support) below.
 * `env` - optional environment variables. This attribute expects environment variables as a list of string typed key/value pairs.
@@ -437,6 +437,23 @@ Here are some things to try when your breakpoints turn gray:
 * Try searching for help with your particular setup on Stack Overflow or by filing an issue on GitHub.
 * Try adding a `debugger` statement. If it breaks into the `.ts` file there, but breakpoints at that spot don't bind, that is useful information to include with a GitHub issue.
 
+### Overriding source map paths
+
+The debugger uses `sourceMapPathOverrides` to implement custom sourcemap-to-disk path mapping. Good defaults are in place for most tools, but in advanced cases you may need to customize it. The default paths overrides is an object map that looks like this:
+
+```js
+{
+  'webpack:///./~/*': "${workspaceFolder}/node_modules/*",
+  'webpack:////*': '/*',
+  'webpack://@?:*/?:*/*': "${workspaceFolder}/*",
+  // and some more patterns...
+}
+```
+
+This maps paths or URLs in the source map from the left to the right. The pattern `?:*` is a non-greedy, non-capturing match, and `*` is a greedy capturing match. The debugger then replaces the corresponding `*` in the right-hand pattern with the fragment captured from the source map path. For example, the last pattern in the above example would map `webpack://@my/package/foo/bar` to `${workspaceFolder}/foo/bar`.
+
+Note that for browser debugging, the `webRoot` is used in place of the `workspaceFolder` in the default `sourceMapPathOverrides`.
+
 ## Remote debugging
 
 > **Note:** VS Code now has universal [remote development capabilities](/docs/remote/remote-overview.md). Using the [Remote Development](https://aka.ms/vscode-remote/download/extension) extensions, Node.js development in remote scenarios and containers is no different than Node.js development in a local setup. **This is the recommended way to remote debug Node.js programs**. Check out the [Getting started](/docs/remote/remote-overview.md#getting-started) section and [Remote tutorials](/docs/remote/remote-overview.md#remote-tutorials) to learn more.
@@ -558,6 +575,14 @@ Some examples:
 * `10` same as `>=10`
 * `%2` break on every other hit
 
+### Triggered breakpoints
+
+A trigged breakpoint is a breakpoint that is automatically enabled once another breakpoint is hit. They can be very useful when diagnosing failure cases in code that happen only after a certain precondition.
+
+Triggered breakpoints can be set by right-clicking on the glyph margin, selecting **Add Triggered Breakpoint**, and then choosing which other breakpoint enables the breakpoint.
+
+<video src="../editor/images/debugging/debug-triggered-breakpoint.mp4" autoplay loop controls muted></video>
+
 ### Breakpoint validation
 
 For performance reasons, Node.js parses the functions inside JavaScript files lazily on first access. As a consequence, breakpoints don't work in source code areas that haven't been seen (parsed) by Node.js.
@@ -633,7 +658,7 @@ The JavaScript debugger can debug code compiled into WebAssembly if it includes 
 * [Zig](https://ziglang.org/): DWARF information is automatically emittted in the "Debug" build mode.
 * [Rust](https://www.rust-lang.org/): Rust emits DWARF debug information. However, wasm-pack [does not yet](https://github.com/rustwasm/wasm-pack/issues/1351) retain it during the build. So, instead of running `wasm-pack build`, users of the common wasm-bindgen/wasm-pack libraries should build manually build using two commands:
   1. `cargo install wasm-bindgen-cli` once to install the necessary command-line tool.
-  1. `cargo build --target wasm32-unknown-unkown` to build your library.
+  1. `cargo build --target wasm32-unknown-unknown` to build your library.
   1. `wasm-bindgen --keep-debug --out-dir pkg ./target/wasm32-unknown-unknown/debug/<library-name>.wasm <extra-arguments>` to generate the WebAssembly bindings, replacing `<library-name>` with the name from your Cargo.toml and configuring `<extra-arguments>` as necessary.
 
 After you have your code built, you'll want to install the [WebAssembly DWARF Debugging](https://marketplace.visualstudio.com/items?itemName=ms-vscode.wasm-dwarf-debugging) extension. This is shipped as a separate extension in order to keep the VS Code core 'streamlined.' Once installed, restart any active debugging sessions, and native code should then be mapped in the debugger! You should see your source code appear in the **Loaded Sources** view, and breakpoints should work.
@@ -647,7 +672,6 @@ While close to parity, debugging WebAssembly is a little different than ordinary
 * Variables in the **Variables** view cannot be edited directly. However, you can select the **View Binary Data** action beside the variable to edit their associated memory.
 * Basic expression evaluation in the **Debug Console** and **Watch** views is provided by [lldb-eval](https://github.com/google/lldb-eval). This is different than ordinary JavaScript expressions.
 * Locations not mapped to source code will be shown in disassembled WebAssembly Text Format. For WebAssembly, the command **Disable Source Map Stepping** will cause the debugger to step only in disassembled code.
-* Breakpoints in WebAssembly code are resolved asynchronously, so breakpoints hit early on in a program's lifecycle may be missed. There are plans to fix this in the future. If you're debugging in a browser, you can refresh the page for your breakpoint to be hit. If you're in Node.js, you can add an artificial delay, or set another breakpoint, after your WebAssembly module is loaded but before your desired breakpoint is hit.
 
 VS Code's WebAssembly debugging is built upon the [C/C++ Debugging Extension](https://github.com/ChromeDevTools/devtools-frontend/tree/main/extensions/cxx_debugging) from the Chromium authors.
 
@@ -661,10 +685,9 @@ In case you didn't already read the Node.js section, take a look at:
 
 * [Node.js](/docs/nodejs/nodejs-tutorial.md) - End to end Node scenario with a sample application
 
-To see tutorials on the basics of Node.js debugging, check out these videos:
+To see a tutorial on the basics of debugging in VS Code, check out this video:
 
-* [Intro Video - Debugging](/docs/introvideos/debugging.md) - Introductory video showcasing the basics of debugging.
-* [Getting started with Node.js debugging](https://www.youtube.com/watch?v=2oFKNL7vYV8) - Learn how to attach to a running Node.js process.
+* [Getting started with debugging in VS Code](https://www.youtube.com/watch?v=3HiLLByBWkg).
 
 To learn about VS Code's task running support, go to:
 

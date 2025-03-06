@@ -71,6 +71,16 @@ In the dropdown, it lists all your existing debug configurations. If you hover o
 
 ![Remove dynamic configuration](images/debugging/delete-dynamic-config.gif)
 
+### Debug with editor debug/run buttons
+
+When a `.cs` file is open in the editor, run and debug options are accessible via the buttons located in the upper-right corner of the editor window. These actions will use the current file to query the project system and determine the associated project to launch.
+
+The two options are:
+- <span class="codicon codicon-debug-start"></span> `Run project associated with this file`: This will launch your program with `noDebug: true` with the debug adapter.
+- <span class="codicon codicon-debug-alt"></span> `Debug project associated with this file`: This will launch your program under the debugger.
+
+![Editor Run or Debug](images/debugging/editor-run-debug.png)
+
 ### Debug with launch.json
 
 If you are using the C# Dev Kit, we recommend not using this option. However, if you have the need to modify the debug configuration directly, see [Configuring launch.json for C# debugging](/docs/csharp/debugger-settings.md).
@@ -83,7 +93,7 @@ You can attach to a C# process using with the Command Palette `kb(workbench.acti
 
 ## Configuration options
 
-There are many options and settings available to configure the debugger. You can use `launchSettings.json`, VS Code [User Settings](/docs/getstarted/settings) to modify your debug options, or directly modify your `launch.json`.
+There are many options and settings available to configure the debugger. You can use `launchSettings.json`, VS Code [User Settings](/docs/editor/settings) to modify your debug options, or directly modify your `launch.json`.
 
 ### launchSettings.json
 
@@ -119,7 +129,7 @@ If you have settings that you wish to change while using the C# debugger, you ca
 * `csharp.debug.symbolOptions.searchMicrosoftSymbolServer` - If `true` the Microsoft Symbol server (`https://msdl.microsoft.com/download/symbols`) is added to the symbols search path. If unspecified, this option defaults to `false`.
 * `csharp.debug.symbolOptions.searchNuGetOrgSymbolServer` - If `true` the NuGet.org symbol server (`https://symbols.nuget.org/download/symbols`) is added to the symbols search path. If unspecified, this option defaults to `false`.
 * `csharp.debug.symbolOptions.cachePath` - Directory where symbols downloaded from symbol servers should be cached. If unspecified, on Windows the debugger defaults to `%TEMP%\\SymbolCache`, and on Linux and macOS the debugger defaults to `~/.dotnet/symbolcache`.
-*- `csharp.debug.symbolOptions.moduleFilter.mode` - Controls which of the two basic operating modes the module filter operates in.
+* `csharp.debug.symbolOptions.moduleFilter.mode` - Controls which of the two basic operating modes the module filter operates in.
   * `loadAllButExcluded` - Load symbols for all modules unless the module is in the `excludedModules` array.
   * `loadOnlyIncluded` - Do not attempt to load symbols for ANY module unless it is in the `includedModules` array, or it is included through the `includeSymbolsNextToModules` setting.
 * `csharp.debug.symbolOptions.moduleFilter.excludedModules` - Array of modules that the debugger should NOT load symbols for. Wildcards (example: MyCompany.*.dll) are supported. This property is ignored unless `mode` is set to `loadAllButExcluded`.
@@ -135,11 +145,17 @@ This property is ignored unless `mode` is set to `loadOnlyIncluded`
 
 The C# Debugger supports various breakpoints, such as source line breakpoints, conditional breakpoints, and logpoints.
 
-### Breakpoint - conditional breakpoint
+### Breakpoint - Conditional breakpoint
 
 With the help of expression evaluation, the debugger also supports conditional breakpoint. You can set your breakpoint to break when expression evaluates to true.
 
 ![Conditional Breakpoints](images/debugging/conditional-breakpoint.gif)
+
+### Breakpoint - Function Breakpoint
+
+The debugger also supports functional breakpoints. You can set your breakpoint to break on the specific function by clicking on the `+` in the Breakpoints section of the Debug pane.
+
+![Function Breakpoints](images/debugging/function-breakpoint.gif)
 
 ### Breakpoint - Logpoints
 
@@ -164,6 +180,14 @@ The following tokens are also supported in the log message:
 | $HITCOUNT | Number of times this breakpoint has been hit | 5 |
 
 ![LogMessage Breakpoint](images/debugging/logmessage-breakpoint.gif)
+
+### Breakpoint - Triggered breakpoints
+
+A triggered breakpoint is a breakpoint that is automatically enabled once another breakpoint is hit. They can be very useful when diagnosing failure cases in code that happen only after a certain precondition.
+
+Triggered breakpoints can be set by right-clicking on the glyph margin, selecting **Add Triggered Breakpoint**, and then choosing which other breakpoint enables the breakpoint.
+
+<video src="../editor/images/debugging/debug-triggered-breakpoint.mp4" autoplay loop controls muted></video>
 
 ## Stopping on exceptions
 

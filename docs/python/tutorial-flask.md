@@ -1,12 +1,12 @@
 ---
-Order: 11
+Order: 13
 Area: python
 TOCTitle: Flask Tutorial
 ContentId: 593d2dd6-20f0-4ad3-8ecd-067cc47ee217
 PageTitle: Python and Flask Tutorial in Visual Studio Code
-DateApproved: 01/20/2023
+DateApproved: 03/05/2025
 MetaDescription: Python Flask tutorial showing IntelliSense, debugging, and code navigation support in Visual Studio Code, the best Python IDE.
-MetaSocialImage: images/tutorial/social.png
+MetaSocialImage: images/tutorial/python-social.png
 ---
 # Flask Tutorial in Visual Studio Code
 
@@ -178,8 +178,8 @@ Debugging gives you the opportunity to pause a running program on a particular l
 
     ```json
     {
-        "name": "Python: Flask",
-        "type": "python",
+        "name": "Python Debugger: Flask",
+        "type": "debugpy",
         "request": "launch",
         "module": "flask",
         "env": {
@@ -470,7 +470,7 @@ You can run the app at this point, but because you haven't made use of the base 
 
 Because the three pages you create in the next section extend `layout.html`, it saves time to create a **code snippet** to initialize a new template file with the appropriate reference to the base template. A code snippet provides a consistent piece of code from a single source, which avoids errors that can creep in when using copy-paste from existing code.
 
-1. In VS Code, select **File** > **Preferences** > **Configure User Snippets**.
+1. In VS Code, select **File** > **Preferences** > **Configure Snippets**.
 
 1. In the list that appears, select **html**. The option may appear as "html.json" in the **Existing Snippets** section of the list if you've created snippets previously.
 

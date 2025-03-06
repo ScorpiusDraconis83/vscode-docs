@@ -4,7 +4,7 @@ Area: editor
 TOCTitle: Tasks
 ContentId: F5EA1A52-1EF2-4127-ABA6-6CEF5447C608
 PageTitle: Tasks in Visual Studio Code
-DateApproved: 12/7/2023
+DateApproved: 03/05/2025
 MetaDescription: Expand your development workflow with task integration in Visual Studio Code.
 ---
 # Integrate with External Tools via Tasks
@@ -169,12 +169,13 @@ The task's properties have the following semantic:
 * **presentation**: Defines how the task output is handled in the user interface. In this example, the Integrated Terminal showing the output is `always` revealed and a `new` terminal is created on every task run.
 * **options**: Override the defaults for `cwd` (current working directory), `env` (environment variables), or `shell` (default shell). Options can be set per task but also globally or per platform. Environment variables configured here can only be referenced from within your task script or process and will not be resolved if they are part of your args, command, or other task attributes.
 * **runOptions**: Defines when and how a task is run.
+* **hide**: Hides the task from the Run Task Quick Pick, which can be useful for elements of a compound task that are not independently runnable.
 
 You can see the full set of task properties and values with IntelliSense in your `tasks.json` file. Bring up suggestions with **Trigger Suggest** (`kb(editor.action.triggerSuggest)`) and read the descriptions on hover or with the **Read More...** ('i') flyout.
 
 ![tasks.json IntelliSense](images/tasks/tasks-intellisense.png)
 
-You can also review the [tasks.json schema](/docs/editor/tasks-appendix.md).
+You can also review the [tasks.json schema](/docs/reference/tasks-appendix.md).
 
 Shell commands need special treatment when it comes to commands and arguments that contain spaces or other special characters like `$`. By default, the task system supports the following behavior:
 
@@ -375,6 +376,7 @@ You can specify a task's run behaviors using the `runOptions` property:
 * **runOn**: Specifies when a task is run.
   * `default` - The task will only be run when executed through the **Run Task** command.
   * `folderOpen` - The task will be run when the containing folder is opened. The first time you open a folder that contains a task with `folderOpen`, you will be asked if you want to allow tasks to run automatically in that folder. You can change your decision later using the **Manage Automatic Tasks** command and selecting between **Allow Automatic Tasks** and **Disallow Automatic Tasks**.
+* **instanceLimit** - The number of instances of the task that are allowed to run simultaneously. The default value is `1`.
 
 ## Customizing auto-detected tasks
 
@@ -462,7 +464,7 @@ For example, to bind `Ctrl+H` to the **Run tests** task from above, add the foll
 
 ## Variable substitution
 
-When authoring tasks configurations, it is useful to have a set of predefined common variables such as the active file (`${file}`) or workspace root folder (`${workspaceFolder}`). VS Code supports variable substitution inside strings in the `tasks.json` file and you can see a full list of predefined variables in the [Variables Reference](/docs/editor/variables-reference.md).
+When authoring tasks configurations, it is useful to have a set of predefined common variables such as the active file (`${file}`) or workspace root folder (`${workspaceFolder}`). VS Code supports variable substitution inside strings in the `tasks.json` file and you can see a full list of predefined variables in the [Variables Reference](/docs/reference/variables-reference.md).
 
 >**Note:** Not all properties will accept variable substitution. Specifically, only `command`, `args`, and `options` support variable substitution.
 
@@ -501,7 +503,7 @@ If simple variable substitution isn't enough, you can also get input from the us
 
 ![Inputs Example](images/tasks/run-input-example.gif)
 
-For more information about `inputs`, see the [Variables Reference](/docs/editor/variables-reference.md).
+For more information about `inputs`, see the [Variables Reference](/docs/reference/variables-reference.md).
 
 ## Operating system specific properties
 
@@ -639,6 +641,8 @@ A matcher that captures the above warning (and errors) looks like this:
     "owner": "cpp",
     // The file name for reported problems is relative to the opened folder.
     "fileLocation": ["relative", "${workspaceFolder}"],
+    // The name that will be shown as the source of the problem.
+    "source": "gcc",
     // The actual pattern to match problems in the output.
     "pattern": {
         // The regular expression. Example to match: helloWorld.c:5:3: warning: implicit declaration of function ‘printf’ [-Wimplicit-function-declaration]
@@ -659,6 +663,8 @@ A matcher that captures the above warning (and errors) looks like this:
 
 Note that the file, line, and message properties are mandatory. The `fileLocation` specifies whether the file paths that are produced by the task output and matched in the problem are `absolute` or `relative`. If the task produces both absolute and relative paths, you can use the `autoDetect` file location. With `autoDetect`, paths are first tested as absolute paths, and if the file doesn't exist then the path is assumed to be relative.
 
+The `severity` specifies which problem severity to use if the pattern doesn't include one. The possible values for `severity` are `error`, `warning`, or `info`.
+
 Here is a finished `tasks.json` file with the code above (comments removed) wrapped with the actual task details:
 
 ```json
@@ -672,6 +678,7 @@ Here is a finished `tasks.json` file with the code above (comments removed) wrap
             "problemMatcher": {
                 "owner": "cpp",
                 "fileLocation": ["relative", "${workspaceFolder}"],
+                "source": "gcc",
                 "pattern": {
                     "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
                     "file": 1,
@@ -882,7 +889,7 @@ A full handcrafted `tasks.json` for a `tsc` task running in watch mode looks lik
 
 That was tasks - let's keep going...
 
-* [tasks.json Schema](/docs/editor/tasks-appendix.md) - You can review the full `tasks.json` schema and descriptions.
+* [tasks.json Schema](/docs/reference/tasks-appendix.md) - You can review the full `tasks.json` schema and descriptions.
 * [Basic Editing](/docs/editor/codebasics.md) - Learn about the powerful VS Code editor.
 * [Code Navigation](/docs/editor/editingevolved.md) - Move quickly through your source code.
 * [Language Support](/docs/languages/overview.md) - Learn about our supported programming languages, both shipped with VS Code and through community extensions.

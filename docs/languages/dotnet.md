@@ -4,7 +4,7 @@ Area: languages
 TOCTitle: .NET
 ContentId: AFFD7BDB-925E-4D02-828D-4E14360C70DA
 PageTitle: .NET and Visual Studio Code
-DateApproved: 6/6/2023
+DateApproved: 03/05/2025
 MetaDescription: Get started writing and debugging .NET apps with Visual Studio Code.
 ---
 # Using .NET in Visual Studio Code
@@ -12,8 +12,6 @@ MetaDescription: Get started writing and debugging .NET apps with Visual Studio 
 [.NET](https://dotnet.microsoft.com) provides a fast and modular platform for creating many different types of applications that run on Windows, Linux, and macOS. Use Visual Studio Code with the C# and F# extensions to get a powerful editing experience with [C# IntelliSense](https://learn.microsoft.com/visualstudio/ide/visual-csharp-intellisense), F# IntelliSense (smart code completion), and debugging.
 
 ## Setting up VS Code for .NET development
-
-### Installing extensions
 
 If you are an existing VS Code user, you can add .NET support by installing the [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit) extension. C# Dev Kit brings a productive and reliable C# experience into VS Code, facilitating C# or multi-language development in VS Code. This extension pack consists of a set of VS Code extensions that work together to provide a rich C# editing experience, AI-powered development, solution management, and integrated testing experiences. As shown in the graphic below, C# Dev Kit consists of:
 
@@ -31,16 +29,6 @@ If your projects require F# support, you can also download the [.NET Extension P
 * [Polyglot Notebooks](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.dotnet-interactive-vscode)
 
 You can also install extensions separately.
-
-### .NET Coding Pack for students
-
-To help you set up quickly, you can install the **.NET Coding Pack**, which includes VS Code, the .NET Software Development Kit, and essential .NET extensions. The Coding Pack can be used as a clean installation, or to update or repair an existing development environment.
-
-<a class="install-extension-btn" onclick="pushCodingPackEvent('dotnet', 'win')" href="https://aka.ms/dotnet-coding-pack-win">Install the .NET Coding Pack - Windows</a>
-
-<a class="install-extension-btn" onclick="pushCodingPackEvent('dotnet', 'mac')" href="https://aka.ms/dotnet-coding-pack-mac">Install the .NET Coding Pack - macOS</a><br>
-
-> **Note**: The .NET Coding Pack is only available for Windows and macOS. For other operating systems, you will need to manually install the .NET SDK, VS Code, and .NET extensions.
 
 ## Installing the .NET Software Development Kit
 

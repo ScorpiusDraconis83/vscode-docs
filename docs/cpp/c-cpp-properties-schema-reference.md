@@ -11,7 +11,7 @@ MetaDescription: Schema reference for C++ project settings in Visual Studio Code
 
 This article explains the scheme for the `c_cpp_properties.json` settings file.
 
-Looking to get started with configuring your project? See [Configure Intellisense](/docs/cpp/configure-intellisense.md).For more information about changing these settings, see [Customizing Default Settings](/docs/cpp/customize-default-settings-cpp.md).
+Looking to get started with configuring your project? See [Configure Intellisense](/docs/cpp/configure-intellisense.md). For more information about changing these settings, see [Customizing Default Settings](/docs/cpp/customize-default-settings-cpp.md).
 
 ## Example of Variables
 
@@ -51,7 +51,7 @@ Note, this is an example of all fields. You do not need to specify all fields in
                 "${workspaceFolder}/common.h"
             ],
             "compileCommands": "${workspaceFolder}/build/compile_commands.json",
-            "dotconfig": "${workspaceFolder}/.config",
+            "dotConfig": "${workspaceFolder}/.config",
             "mergeConfigurations": true,
             "customConfigurationVariables": {
                 "myVar": "myvalue"
@@ -183,7 +183,7 @@ Note, this is an example of all fields. You do not need to specify all fields in
   The full path to the `compile_commands.json` file for the workspace. If there is a matching entry in `compile_commands.json` for a file open in the editor, that command line will be  used to configure IntelliSense for that file, instead of the other fields of `c_cpp_properties.json`.
   For more information about the file format, see the [Clang documentation](https://clang.llvm.org/docs/JSONCompilationDatabase.html). Some build systems, such as CMake, [simplify generating this file](https://cmake.org/cmake/help/v3.5/variable/CMAKE_EXPORT_COMPILE_COMMANDS.html).
 
-- `dotconfig`
+- `dotConfig`
   A path to a .config file created by the Kconfig system. The Kconfig system generates a file with all the defines needed to build a project. Examples of projects that use the Kconfig system are the Linux Kernel and NuttX RTOS.
 
 - `mergeConfigurations`
